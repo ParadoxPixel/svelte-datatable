@@ -61,11 +61,11 @@
         {/each}
     </tr>
     {#if rows.length > 0}
-        {#each rows as row}
+        {#each rows as row (row._uid)}
             <tr>
                 {#each initColumns as column,index}
                     <td>
-                        <svelte:component this={column.component} value={row[index]} settings={column}/>
+                        <svelte:component this={column.component} value={row.columns[index]} settings={column}/>
                     </td>
                 {/each}
             </tr>

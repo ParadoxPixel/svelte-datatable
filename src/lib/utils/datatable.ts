@@ -59,7 +59,10 @@ function ucFirst(str: string): string {
 export function filter(data: any[], columns: ColumnSettings[], filters: any[]): any[] {
 	return data
 		.map((row) => {
-			return columns.map((column) => evalAttribute(row, column.attribute ?? ''));
+			return {
+				_uid: row._uid,
+				columns: columns.map((column) => evalAttribute(row, column.attribute ?? ''))
+			};
 		})
 		.filter((row) => {
 			let column, filterValue;
@@ -70,7 +73,10 @@ export function filter(data: any[], columns: ColumnSettings[], filters: any[]): 
 				filterValue = filters[index];
 				if (
 					filterValue &&
-					!((column.filter as FilterSettings).predicate as FilterPredicate)(row[index], filterValue)
+					!((column.filter as FilterSettings).predicate as FilterPredicate)(
+						row.columns[index],
+						filterValue
+					)
 				)
 					return false;
 			}
@@ -97,8 +103,8 @@ export function sort(data: any[], columns: ColumnSettings[], sorts: string[]): a
 		for (const index in columns) {
 			if (!nums[index]) continue;
 
-			if (a[index] > b[index]) return nums[index];
-			if (a[index] < b[index]) return -1 * nums[index];
+			if (a.columns[index] > b.columns[index]) return nums[index];
+			if (a.columns[index] < b.columns[index]) return -1 * nums[index];
 		}
 
 		return 0;

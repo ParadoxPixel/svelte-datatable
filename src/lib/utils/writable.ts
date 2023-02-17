@@ -61,11 +61,13 @@ export interface WritableMap<K, V> extends ArrayableWritable<V, Map<K, V>> {
  */
 export function writableMap<K, V>(value: Map<K, V>): WritableMap<K, V> {
 	const obj = writable(value) as WritableMap<K, V>;
+
 	obj.asArray = () => Array.from(get(obj).values());
 	obj.get = (key) => get(obj).get(key);
 
 	obj.put = (key, value) => {
 		obj.update((m) => {
+			(value as any)._uid = key;
 			m.set(key, value);
 			return m;
 		});
@@ -87,12 +89,15 @@ export function writableMap<K, V>(value: Map<K, V>): WritableMap<K, V> {
  */
 export function writableArray<T>(value: T[]): ArrayWritable<T> {
 	const obj = writable(value) as ArrayWritable<T>;
+	let idCounter = 0;
+
 	obj.asArray = () => Array.from(get(obj));
 
 	obj.get = (index: number) => get(obj)[index];
 
 	obj.push = (...items: T[]) => {
 		obj.update((array) => {
+			items.forEach((item) => ((item as any)._iud = idCounter++));
 			array.push(...items);
 			return array;
 		});

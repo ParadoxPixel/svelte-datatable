@@ -3,6 +3,7 @@
   import {writableMap} from '../lib/utils/writable';
   import SelectFilter from '../lib/components/filters/SelectFilter.svelte';
   import {SelectPredicate} from '../lib/utils/filter';
+  import StatusColumn from './StatusColumn.svelte';
 
   const users = writableMap(new Map<string, any>());
 
@@ -19,6 +20,18 @@
       author: {
         name: 'John Doe ' + (Math.floor(Math.random() * 10)),
       },
+      tag: [
+        {
+          name: 'Closed',
+          bg_color: '#e53d3d',
+          txt_color: 'white',
+        },
+        {
+          name: 'Open',
+          bg_color: '#78e839',
+          txt_color: 'white',
+        },
+      ][Math.floor(Math.random() * 2)],
     });
   }, 1000);
 
@@ -41,11 +54,13 @@
         multiple: true,
       },
     },
+    {
+      component: StatusColumn,
+      label: 'Status',
+      attribute: 'tag',
+      sortable: false,
+    },
   ];
 </script>
 
 <DataTable dataProvider={users} columns={columns}/>
-
-<h1>Welcome to your library project</h1>
-<p>Create your package using @sveltejs/package and preview/showcase your work with SvelteKit</p>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
