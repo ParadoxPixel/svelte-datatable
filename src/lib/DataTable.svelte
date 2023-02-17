@@ -4,6 +4,7 @@
   import type {ColumnSettings} from './utils/settings';
   import {onDestroy} from 'svelte';
   import Pagination from '$lib/components/Pagination.svelte';
+  import Order from '$lib/components/Ordered.svelte';
 
   export let dataProvider: ArrayableWritable<any, any>;
   export let columns: (string | ColumnSettings)[];
@@ -40,13 +41,12 @@
     <tr>
         {#each initColumns as column,index}
             <th>
-                {column.label}
                 {#if column.sortable}
-                    <select bind:value={sorts[index]}>
-                        <option value="0">None</option>
-                        <option value="1">ASC</option>
-                        <option value="-1">DESC</option>
-                    </select>
+                    <Order bind:value={sorts[index]}>
+                        {column.label}
+                    </Order>
+                {:else}
+                    {column.label}
                 {/if}
             </th>
         {/each}
@@ -55,7 +55,7 @@
         {#each initColumns as column,index}
             <th>
                 {#if column.filter}
-                    <svelte:component this={column.filter.class} settings={column} bind:value={filters[index]}/>
+                    <svelte:component this={column.filter.component} settings={column} bind:value={filters[index]}/>
                 {/if}
             </th>
         {/each}
@@ -65,7 +65,7 @@
             <tr>
                 {#each initColumns as column,index}
                     <td>
-                        <svelte:component this={column.class} value={row[index]} settings={column}/>
+                        <svelte:component this={column.component} value={row[index]} settings={column}/>
                     </td>
                 {/each}
             </tr>
@@ -86,37 +86,42 @@
 
   .datatable {
     font-family: Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
     width: 100%;
     border: 1px solid #ddd;
+    border-radius: 5px;
+    border-spacing: 0;
 
     td, th {
       padding: 8px;
       text-align: left;
     }
 
-    th {
-      background-color: #fff;
-    }
-
     tr {
       &:nth-child(odd) {
-        background-color: #f2f2f2;
+        background-color: #ebebeb;
+      }
+
+      &:nth-child(even) {
+        background-color: #f7f7f7;
       }
 
       &:first-child th {
-        padding-top: 12px;
-        padding-bottom: 12px;
+        padding: 12px 8px 12px 8px;
         text-align: left;
         background-color: #337ab7;
         color: white;
-      }
 
-      &:not(:first-child) {
-        border-top: 1px solid #ddd;
+        &:first-child {
+          border-top-left-radius: 5px;
+        }
+
+        &:last-child {
+          border-top-right-radius: 5px;
+        }
       }
 
       &:nth-child(2) th {
+        background-color: #fff;
         font-weight: normal;
       }
     }

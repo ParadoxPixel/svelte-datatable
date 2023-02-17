@@ -35,7 +35,7 @@
     {
       attribute: 'role',
       filter: {
-        class: SelectFilter,
+        component: SelectFilter,
         predicate: SelectPredicate,
         options: ['Ancient', 'Builder', 'Test'],
         multiple: true,

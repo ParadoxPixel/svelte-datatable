@@ -1,7 +1,7 @@
 import type { Attribute } from './attribute';
 
 export interface ColumnSettings {
-	class?: any;
+	component?: any;
 	label?: string;
 	attribute?: Attribute;
 	sortable?: boolean;
@@ -9,7 +9,7 @@ export interface ColumnSettings {
 }
 
 export interface FilterSettings {
-	class?: any;
+	component?: any;
 	predicate?: FilterPredicate;
 	placeholder?: string;
 }

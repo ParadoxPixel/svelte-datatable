@@ -16,7 +16,7 @@ export function initColumnSettings(value: string | ColumnSettings): ColumnSettin
 		};
 	}
 
-	value.class ??= TextColumn;
+	value.component ??= TextColumn;
 	value.label ??= typeof value.attribute === 'string' ? ucFirst(value.attribute) : '';
 	value.sortable ??= true;
 	if (typeof value.filter === 'undefined') return value;
@@ -32,7 +32,7 @@ export function initColumnSettings(value: string | ColumnSettings): ColumnSettin
  * @param filter filter settings
  */
 function initFilterSettings(column: ColumnSettings, filter: FilterSettings) {
-	filter.class ??= TextFilter;
+	filter.component ??= TextFilter;
 	filter.predicate ??= PartialPredicate;
 	filter.placeholder ??= 'Search for ' + column.label?.toLowerCase();
 }

@@ -20,7 +20,7 @@
   };
 </script>
 
-<Select bind:value {...selectSettings} class="selectFilter"/>
+<Select bind:justValue={value} {...selectSettings} class="selectFilter"/>
 
 <style lang="scss">
   :global(.selectFilter) {
