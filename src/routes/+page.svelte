@@ -9,7 +9,7 @@
 
   let count = 0;
   let i = setInterval(() => {
-    if (count > 50) {
+    if (count >= 50) {
       clearInterval(i);
       return;
     }
@@ -33,17 +33,17 @@
         },
       ][Math.floor(Math.random() * 2)],
     });
-  }, 1000);
+  }, 1);
 
-  const columns: any[] = [
+  let columns: any[] = [
     {
       label: '#',
       attribute: 'id',
-      sortable: false,
     },
     {
       attribute: 'author.name',
       filter: true,
+      sortable: true,
     },
     {
       attribute: 'role',
@@ -54,13 +54,17 @@
         multiple: true,
       },
     },
-    {
-      component: StatusColumn,
-      label: 'Status',
-      attribute: 'tag',
-      sortable: false,
-    },
   ];
+
+  setTimeout(() => {
+    columns = [
+      ...columns, {
+        component: StatusColumn,
+        label: 'Status',
+        attribute: 'tag',
+        sortable: 'name',
+      }];
+  }, 5 * 1000);
 </script>
 
 <DataTable dataProvider={users} columns={columns}/>

@@ -4,7 +4,7 @@ export interface ColumnSettings {
 	component?: any;
 	label?: string;
 	attribute?: Attribute;
-	sortable?: boolean;
+	sortable?: boolean | string;
 	filter?: boolean | FilterSettings;
 }
 

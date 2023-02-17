@@ -2,7 +2,7 @@ import type { ColumnSettings, FilterPredicate, FilterSettings } from './settings
 import { PartialPredicate } from './filter';
 import TextColumn from '../components/TextColumn.svelte';
 import TextFilter from '../components/filters/TextFilter.svelte';
-import { evalAttribute } from './attribute';
+import { evalAttribute, getAttribute } from './attribute';
 
 /**
  * Initialize column settings
@@ -18,7 +18,7 @@ export function initColumnSettings(value: string | ColumnSettings): ColumnSettin
 
 	value.component ??= TextColumn;
 	value.label ??= typeof value.attribute === 'string' ? ucFirst(value.attribute) : '';
-	value.sortable ??= true;
+	value.sortable ??= false;
 	if (typeof value.filter === 'undefined') return value;
 	if (typeof value.filter === 'boolean') value.filter = {};
 
@@ -103,12 +103,28 @@ export function sort(data: any[], columns: ColumnSettings[], sorts: string[]): a
 		for (const index in columns) {
 			if (!nums[index]) continue;
 
-			if (a.columns[index] > b.columns[index]) return nums[index];
-			if (a.columns[index] < b.columns[index]) return -1 * nums[index];
+			return compare(a.columns[index], b.columns[index], columns[index]) * nums[index];
 		}
 
 		return 0;
 	});
+}
+
+/**
+ * Compare a to b
+ * @param a first object
+ * @param b object to compare to
+ * @param settings column settings
+ */
+function compare(a: any, b: any, settings: ColumnSettings): number {
+	if (typeof settings.sortable == 'string') {
+		a = getAttribute(a, settings.sortable);
+		b = getAttribute(b, settings.sortable);
+	}
+
+	if (a > b) return 1;
+	if (a < b) return -1;
+	return 0;
 }
 
 /**
