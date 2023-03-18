@@ -14,7 +14,7 @@
       return;
     }
 
-    users.put('' + count++, {
+    users.put((count++).toString(10), {
       id: count,
       role: ['Ancient', 'Builder', 'Test'][Math.floor(Math.random() * 3)],
       author: {

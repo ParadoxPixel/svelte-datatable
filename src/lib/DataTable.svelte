@@ -1,12 +1,12 @@
 <script lang="ts">
   import {filter, getPage, initColumnSettings, sort} from './utils/datatable';
-  import type {ArrayableWritable} from './utils/writable';
+  import type {OrderedWritable} from './utils/writable';
   import type {ColumnSettings} from './utils/settings';
   import {onDestroy} from 'svelte';
   import Pagination from '$lib/components/Pagination.svelte';
   import Order from '$lib/components/Ordered.svelte';
 
-  export let dataProvider: ArrayableWritable<any, any>;
+  export let dataProvider: OrderedWritable<any, any>;
   export let columns: (string | ColumnSettings)[];
   export let classList: string[] = [];
   export let pageSize = 10;
